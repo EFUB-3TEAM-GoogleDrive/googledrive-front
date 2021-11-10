@@ -50,7 +50,7 @@ const Header = () => {
   return (
     <HeaderDiv>
       <div style={{ display: "flex", flexDirection: "row", width: "1000px" }}>
-        <div style={{ width: "30%" }}>
+        <div style={{ width: "300px" }}>
           <img
             src={logo}
             alt="로고"
