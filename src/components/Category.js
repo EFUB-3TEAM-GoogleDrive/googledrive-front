@@ -39,6 +39,7 @@ const List = styled.div`
   border-radius: 0px 20px 20px 0px;
   :hover {
     background-color: #f5f5f5;
+    cursor: pointer;
   }
 `;
 
@@ -117,6 +118,7 @@ const Category = () => {
             marginLeft: "8px",
             border: "1px solid #e0e0e0",
             borderRadius: "5px",
+            cursor: "pointer"
           }}
         >
           저장용량 구매
