@@ -52,7 +52,7 @@ const Icon = styled.img`
 
 const Category = () => {
   return (
-    <div style={{ width: "250px", paddingTop: "10px" }}>
+    <div style={{ width: "250px", paddingTop: "10px", marginRight: "15px" }}>
       <Button>
         <img
           src={add}
@@ -93,9 +93,10 @@ const Category = () => {
       </List>
       <div
         style={{
-          border: "0.1px solid #DADCE0",
+          borderBottom: "0.1px solid #DADCE0",
           backgroundColor: "#DADCE0",
           margin: "10px 0px",
+          width: "90%",
         }}
       ></div>
       <List>
@@ -118,7 +119,7 @@ const Category = () => {
             marginLeft: "8px",
             border: "1px solid #e0e0e0",
             borderRadius: "5px",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
         >
           저장용량 구매

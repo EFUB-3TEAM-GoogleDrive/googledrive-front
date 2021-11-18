@@ -1,50 +1,38 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Category from "./components/Category";
 import FileBox from "./components/FileBox";
 import FolderBox from "./components/FolderBox";
 import Header from "./components/Header";
 import RecommendBox from "./components/RecommendBox";
 import styled from "styled-components";
+import Sidebar from "./components/Sidebar";
 
 const Content = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
+const FileWrapper = styled.div`
+  max-height: 81vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    background-color: white;
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ceced2;
+    :hover {
+      background: #919191;
+    }
+  }
+`;
+
+const Title = styled.p`
+  font-size: 15px;
+  margin: 20px 0;
+`;
+
 function App() {
-  const [recommend, setRecommend] = useState([
-      {id:1, content:"file1", order:1},
-    {id:2, content:"file2", order:2},
-    {id:3, content:"file3", order:3},
-    {id:4, content:"file4", order:4},
-    {id:5, content:"file5", order:5}
-  ]);
-  const [dragId, setDragId] = useState();
-
-  const handleDrag = ev => {
-    setDragId(Number(ev.currentTarget.id));
-  }
-
-  const handleDrop = (ev) => {
-    console.log(recommend.find((box) => box.id === dragId))
-    const dragBox = recommend.find((box) => box.id === dragId);
-    const dropBox = recommend.find((box) => box.id === Number(ev.currentTarget.id))
-
-    const dragBoxOrder = dragBox?.order;
-    const dropBoxOrder = dropBox?.order;
-
-    const newBoxState = recommend.map((box) => {
-      if(box.id === dragId) {
-        box.order = dropBoxOrder;
-      }
-      if(box.id === ev.currentTarget.id) {
-        box.order = dragBoxOrder
-      }
-      return box;
-    })
-    setRecommend(newBoxState);
-  }
-
   return (
     <div>
       <Header />
@@ -52,31 +40,28 @@ function App() {
         <Content>
           <Category />
           <div>
-            추천
-            <div style={{ display: "flex", flexDirection: "row"}}>
-              {recommend
-                .sort((a, b) => a.order - b.order)
-                .map((recommendBox) => (
-                  <RecommendBox id = {recommendBox.id} content={recommendBox.content} handleDrag = {handleDrag} handleDrop={handleDrop}/>
-                ))}
+            <div stlye={{ position: "absolute" }}>
+              <p style={{ fontSize: "18px", lineHeight: "2vh" }}>내 드라이브</p>
+              <div
+                style={{
+                  borderBottom: "0.1px solid #DADCE0",
+                  backgroundColor: "#DADCE0",
+                  margin: "10px 0px",
+                }}
+              ></div>
             </div>
-            폴더
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              {Array(5)
-                .fill()
-                .map((folderBox) => (
-                  <FolderBox />
-                ))}
-            </div>
-            파일
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              {Array(5)
-                .fill()
-                .map((fileBox) => (
-                  <FileBox />
-                ))}
-            </div>
+            <FileWrapper>
+              <Title>추천</Title>
+              <RecommendBox />
+              <br />
+              <Title>폴더</Title>
+              <FolderBox />
+              <br />
+              <Title> 파일</Title>
+              <FileBox />
+            </FileWrapper>
           </div>
+          <Sidebar />
         </Content>
       </div>
     </div>
