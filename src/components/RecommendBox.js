@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import FileRightClick from "./FileRightClick";
 
 const Box = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ const Title = styled.div`
   padding: 10px;
 `;
 
-const RecommendBox = () => {
+const RecommendBox = ({ onRightFileClick }) => {
   const [recommend, setRecommend] = useState([
     { id: 1, content: "file1", order: 1 },
     { id: 2, content: "file2", order: 2 },
@@ -69,12 +70,18 @@ const RecommendBox = () => {
     });
     setRecommend(newBoxState);
   };
+
+  const onBoxClick = (e) => {
+    e.preventDefault();
+    onRightFileClick(e);
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       {recommend
         .sort((a, b) => a.order - b.order)
         .map((recommendBox) => (
-          <div>
+          <div onContextMenu={onBoxClick}>
             <Box
               id={recommendBox.id}
               draggable={true}

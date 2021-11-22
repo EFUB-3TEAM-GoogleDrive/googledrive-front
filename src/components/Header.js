@@ -13,7 +13,7 @@ import profile from "../assets/profile.png";
 const HeaderDiv = styled.div`
   display: flex;
   flex-direction: row;
-  height: 9.8vh;
+  height: 7vh;
   border-bottom: 1px solid #dddddd;
   justify-content: space-between;
   align-items: center;

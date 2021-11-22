@@ -72,6 +72,12 @@ const FileBox = () => {
     });
     setFile(newBoxState);
   };
+
+  const onBoxClick = (e) => {
+    e.preventDefault();
+    alert("파일 우클릭");
+  };
+
   return (
     <div
       style={{
@@ -83,7 +89,7 @@ const FileBox = () => {
       {file
         .sort((a, b) => a.order - b.order)
         .map((fileBox) => (
-          <div>
+          <div onContextMenu={onBoxClick}>
             <Box
               id={fileBox.id}
               draggable={true}

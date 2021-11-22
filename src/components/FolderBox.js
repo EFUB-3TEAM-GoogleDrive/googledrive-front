@@ -50,12 +50,18 @@ const FolderBox = () => {
     });
     setFolder(newBoxState);
   };
+
+  const onBoxClick = (e) => {
+    e.preventDefault();
+    alert("파일 우클릭");
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       {folder
         .sort((a, b) => a.order - b.order)
         .map((folderBox) => (
-          <div>
+          <div onContextMenu={onBoxClick}>
             <Box
               id={folderBox.id}
               draggable={true}
