@@ -43,7 +43,6 @@ function App() {
   const fileMenu = useRef(false);
   const x = useRef(0);
   const y = useRef(0);
-  let isSameTime = false;
 
   const onRightBlankClick = (e) => {
     if (fileMenu.current) {
@@ -93,10 +92,10 @@ function App() {
               <RecommendBox onRightFileClick={onRightFileClick} />
               <br />
               <Title>폴더</Title>
-              <FolderBox />
+              <FolderBox onRightFileClick={onRightFileClick} />
               <br />
               <Title> 파일</Title>
-              <FileBox />
+              <FileBox onRightFileClick={onRightFileClick} />
             </FileWrapper>
             {blankMenu.current ? (
               <BlankRightClick x={x.current} y={y.current} />

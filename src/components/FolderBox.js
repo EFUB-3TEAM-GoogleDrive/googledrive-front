@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { switchFolder } from "../store/actions/action";
 
 const Box = styled.div`
   display: flex;
@@ -15,47 +17,21 @@ const Box = styled.div`
   border-radius: 5px;
 `;
 
-const FolderBox = () => {
-  const [folder, setFolder] = useState([
-    { id: 1, content: "folder1", order: 1 },
-    { id: 2, content: "folder2", order: 2 },
-    { id: 3, content: "folder3", order: 3 },
-    { id: 4, content: "folder4", order: 4 },
-    { id: 5, content: "folder5", order: 5 },
-  ]);
+const FolderBox = ({ onRightFileClick }) => {
+  const dispatch = useDispatch();
+  const [folder, setFolder] = useState(
+    useSelector((state) => state?.folder.folder) || []
+  );
   const [dragId, setDragId] = useState();
 
   const handleDrag = (ev) => {
     setDragId(Number(ev.currentTarget.id));
   };
 
-  const handleDrop = (ev) => {
-    console.log(folder.find((box) => box.id === dragId));
-    const dragBox = folder.find((box) => box.id === dragId);
-    const dropBox = folder.find(
-      (box) => box.id === Number(ev.currentTarget.id)
-    );
-
-    const dragBoxOrder = dragBox?.order;
-    const dropBoxOrder = dropBox?.order;
-
-    const newBoxState = folder.map((box) => {
-      if (box.id === dragId) {
-        box.order = dropBoxOrder;
-      }
-      if (box.id === ev.currentTarget.id) {
-        box.order = dragBoxOrder;
-      }
-      return box;
-    });
-    setFolder(newBoxState);
-  };
-
   const onBoxClick = (e) => {
     e.preventDefault();
-    alert("파일 우클릭");
+    onRightFileClick(e);
   };
-
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       {folder
@@ -67,7 +43,7 @@ const FolderBox = () => {
               draggable={true}
               onDragOver={(ev) => ev.preventDefault()}
               onDragStart={handleDrag}
-              onDrop={handleDrop}
+              onDrop={(e) => switchFolder(dispatch, dragId, e.currentTarget.id)}
             >
               {folderBox.content}
             </Box>
