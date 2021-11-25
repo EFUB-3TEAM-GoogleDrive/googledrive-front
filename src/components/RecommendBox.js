@@ -24,6 +24,7 @@ const Image = styled.div`
   background-color: white;
   border-bottom: none;
   box-shadow: 0 0 3px 1px #cccccc;
+  background-image: url(${(props) => props.url});
 `;
 
 const Title = styled.div`
@@ -34,22 +35,30 @@ const Title = styled.div`
   border-bottom: none;
   border-radius: 0 0 5px 5px;
   padding: 10px;
+  display: flex;
+  flex-direction: row;
+`;
+
+const Icon = styled.div`
+  background-image: url(${(props) => props.url});
+  width: 19px;
+  height: 19px;
+  margin-right: 10px;
+  margin-top: 2px;
 `;
 
 const RecommendBox = ({ onRightFileClick }) => {
   const dispatch = useDispatch();
-  const [recommend, setRecommend] = useState(
-    useSelector((state) => state?.recommend.recommend) || []
-  );
+  const recommend = useSelector((state) => state?.recommend.recommend) || [];
   const [dragId, setDragId] = useState();
 
   const handleDrag = (ev) => {
     setDragId(Number(ev.currentTarget.id));
   };
 
-  const onBoxClick = (e) => {
+  const onBoxClick = (e, id) => {
     e.preventDefault();
-    onRightFileClick(e);
+    onRightFileClick(e, "recommend", id);
   };
 
   return (
@@ -57,7 +66,7 @@ const RecommendBox = ({ onRightFileClick }) => {
       {recommend
         .sort((a, b) => a.order - b.order)
         .map((recommendBox) => (
-          <div onContextMenu={onBoxClick}>
+          <div onContextMenu={(e) => onBoxClick(e, recommendBox.id)}>
             <Box
               id={recommendBox.id}
               draggable={true}
@@ -67,8 +76,11 @@ const RecommendBox = ({ onRightFileClick }) => {
                 switchRecommend(dispatch, dragId, e.currentTarget.id)
               }
             >
-              <Image>dd</Image>
-              <Title>{recommendBox.content}</Title>
+              <Image url={recommendBox.thumbnail} />
+              <Title>
+                <Icon url={recommendBox.icon} />
+                {recommendBox.content}
+              </Title>
             </Box>
           </div>
         ))}

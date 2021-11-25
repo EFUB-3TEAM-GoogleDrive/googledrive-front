@@ -21,9 +21,12 @@ export default function fileReducer(state = initialState, action) {
         }
         return box;
       });
-      return newBoxState;
-    case DELETE_FILE:
       return { ...state, file: newBoxState };
+    case DELETE_FILE:
+      const deletedFile = state.file.find((box) => box.id === action.id);
+      const newFileState = state.file.filter((box) => box.id !== action.id);
+      const newTrashState = state.trash.concat(deletedFile);
+      return { ...state, file: newFileState, trash: newTrashState };
     default:
       return state;
   }

@@ -23,7 +23,14 @@ export default function recommendReducer(state = initialState, action) {
       });
       return { ...state, recommend: newBoxState };
     case DELETE_RECOMMEND:
-      return state;
+      const deletedRecommend = state.recommend.find(
+        (box) => box.id === action.id
+      );
+      const newRecommendState = state.recommend.filter(
+        (box) => box.id !== action.id
+      );
+      const newTrashState = state.trash.concat(deletedRecommend);
+      return { ...state, recommend: newRecommendState, trash: newTrashState };
     default:
       return state;
   }

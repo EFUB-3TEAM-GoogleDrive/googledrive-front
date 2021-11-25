@@ -19,25 +19,23 @@ const Box = styled.div`
 
 const FolderBox = ({ onRightFileClick }) => {
   const dispatch = useDispatch();
-  const [folder, setFolder] = useState(
-    useSelector((state) => state?.folder.folder) || []
-  );
+  const folder = useSelector((state) => state?.folder.folder) || [];
   const [dragId, setDragId] = useState();
 
   const handleDrag = (ev) => {
     setDragId(Number(ev.currentTarget.id));
   };
 
-  const onBoxClick = (e) => {
+  const onBoxClick = (e, id) => {
     e.preventDefault();
-    onRightFileClick(e);
+    onRightFileClick(e, "folder", id);
   };
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       {folder
         .sort((a, b) => a.order - b.order)
         .map((folderBox) => (
-          <div onContextMenu={onBoxClick}>
+          <div onContextMenu={(e) => onBoxClick(e, folderBox.id)}>
             <Box
               id={folderBox.id}
               draggable={true}

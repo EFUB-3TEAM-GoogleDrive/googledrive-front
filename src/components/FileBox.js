@@ -38,18 +38,16 @@ const Title = styled.div`
 
 const FileBox = ({ onRightFileClick }) => {
   const dispatch = useDispatch();
-  const [file, setFile] = useState(
-    useSelector((state) => state?.file.file) || []
-  );
+  const file = useSelector((state) => state?.file.file) || [];
   const [dragId, setDragId] = useState();
 
   const handleDrag = (ev) => {
     setDragId(Number(ev.currentTarget.id));
   };
 
-  const onBoxClick = (e) => {
+  const onBoxClick = (e, id) => {
     e.preventDefault();
-    onRightFileClick(e);
+    onRightFileClick(e, "file", id);
   };
   return (
     <div
@@ -62,7 +60,7 @@ const FileBox = ({ onRightFileClick }) => {
       {file
         .sort((a, b) => a.order - b.order)
         .map((fileBox) => (
-          <div onContextMenu={onBoxClick}>
+          <div onContextMenu={(e) => onBoxClick(e, fileBox.id)}>
             <Box
               id={fileBox.id}
               draggable={true}

@@ -23,7 +23,10 @@ export default function folderReducer(state = initialState, action) {
       });
       return { ...state, folder: newBoxState };
     case DELETE_FOLDER:
-      return state;
+      const deletedFolder = state.folder.find((box) => box.id === action.id);
+      const newFolderState = state.folder.filter((box) => box.id !== action.id);
+      const newTrashState = state.trash.concat(deletedFolder);
+      return { ...state, folder: newFolderState, trash: newTrashState };
     default:
       return state;
   }

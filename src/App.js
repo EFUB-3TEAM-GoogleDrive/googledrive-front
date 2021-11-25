@@ -37,12 +37,12 @@ const Title = styled.p`
 
 function App() {
   const [toggle, setToggle] = useState(false);
-  // const [blankMenu, setBlankMenu] = useState(false);
-  // const [fileMenu, setFileMenu] = useState(false);
   const blankMenu = useRef(false);
   const fileMenu = useRef(false);
   const x = useRef(0);
   const y = useRef(0);
+  const selectedType = useRef("");
+  const selectedId = useRef();
 
   const onRightBlankClick = (e) => {
     if (fileMenu.current) {
@@ -56,12 +56,14 @@ function App() {
     y.current = e.nativeEvent.clientY;
   };
 
-  const onRightFileClick = (e) => {
+  const onRightFileClick = (e, type, id) => {
     e.preventDefault();
     fileMenu.current = true;
     setToggle(!toggle);
     x.current = e.nativeEvent.clientX;
     y.current = e.nativeEvent.clientY;
+    selectedType.current = type;
+    selectedId.current = id;
   };
 
   const onClick = (e) => {
@@ -87,7 +89,10 @@ function App() {
                 }}
               ></div>
             </div>
-            <FileWrapper onContextMenu={onRightBlankClick} onClick={onClick}>
+            <FileWrapper
+              onContextMenu={onRightBlankClick}
+              onMouseDown={onClick}
+            >
               <Title>추천</Title>
               <RecommendBox onRightFileClick={onRightFileClick} />
               <br />
@@ -103,7 +108,13 @@ function App() {
               <></>
             )}
             {fileMenu.current ? (
-              <FileRightClick x={x.current} y={y.current} />
+              <FileRightClick
+                x={x.current}
+                y={y.current}
+                selectedType={selectedType.current}
+                selectedId={selectedId.current}
+                close={onClick}
+              />
             ) : (
               <></>
             )}
