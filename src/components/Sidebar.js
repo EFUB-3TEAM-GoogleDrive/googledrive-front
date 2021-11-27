@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+  float: left;
   border-left: 0.1px solid #dadce0;
   width: 100px;
 `;

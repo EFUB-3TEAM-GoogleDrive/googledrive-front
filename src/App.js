@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Category from "./components/Category";
 import FileBox from "./components/FileBox";
 import FolderBox from "./components/FolderBox";
@@ -8,6 +8,7 @@ import styled from "styled-components";
 import Sidebar from "./components/Sidebar";
 import BlankRightClick from "./components/BlankRightClick";
 import FileRightClick from "./components/FileRightClick";
+import TrashCan from "./components/TrashCan";
 
 const Content = styled.div`
   display: flex;
@@ -37,12 +38,17 @@ const Title = styled.p`
 
 function App() {
   const [toggle, setToggle] = useState(false);
+  const [mainpage, setMainpage] = useState(true);
   const blankMenu = useRef(false);
   const fileMenu = useRef(false);
   const x = useRef(0);
   const y = useRef(0);
   const selectedType = useRef("");
   const selectedId = useRef();
+
+  useEffect(() => {
+    setMainpage(true);
+  }, []);
 
   const onRightBlankClick = (e) => {
     if (fileMenu.current) {
@@ -72,13 +78,17 @@ function App() {
     setToggle(!toggle);
   };
 
+  const changePage = (isMainpage) => {
+    setMainpage(isMainpage);
+  };
+
   return (
     <div>
       <Header />
       <div>
         <Content>
-          <Category />
-          <div>
+          <Category isMainpage={mainpage} changePage={changePage} />
+          <div style={{ width: "150%" }}>
             <div stlye={{ position: "absolute" }}>
               <p style={{ fontSize: "18px", lineHeight: "2vh" }}>내 드라이브</p>
               <div
@@ -89,34 +99,40 @@ function App() {
                 }}
               ></div>
             </div>
-            <FileWrapper
-              onContextMenu={onRightBlankClick}
-              onMouseDown={onClick}
-            >
-              <Title>추천</Title>
-              <RecommendBox onRightFileClick={onRightFileClick} />
-              <br />
-              <Title>폴더</Title>
-              <FolderBox onRightFileClick={onRightFileClick} />
-              <br />
-              <Title> 파일</Title>
-              <FileBox onRightFileClick={onRightFileClick} />
-            </FileWrapper>
-            {blankMenu.current ? (
-              <BlankRightClick x={x.current} y={y.current} />
+            {mainpage ? (
+              <div>
+                <FileWrapper
+                  onContextMenu={onRightBlankClick}
+                  onMouseDown={onClick}
+                >
+                  <Title>추천</Title>
+                  <RecommendBox onRightFileClick={onRightFileClick} />
+                  <br />
+                  <Title>폴더</Title>
+                  <FolderBox onRightFileClick={onRightFileClick} />
+                  <br />
+                  <Title> 파일</Title>
+                  <FileBox onRightFileClick={onRightFileClick} />
+                </FileWrapper>
+                {blankMenu.current ? (
+                  <BlankRightClick x={x.current} y={y.current} />
+                ) : (
+                  <></>
+                )}
+                {fileMenu.current ? (
+                  <FileRightClick
+                    x={x.current}
+                    y={y.current}
+                    selectedType={selectedType.current}
+                    selectedId={selectedId.current}
+                    close={onClick}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
             ) : (
-              <></>
-            )}
-            {fileMenu.current ? (
-              <FileRightClick
-                x={x.current}
-                y={y.current}
-                selectedType={selectedType.current}
-                selectedId={selectedId.current}
-                close={onClick}
-              />
-            ) : (
-              <></>
+              <TrashCan />
             )}
           </div>
           <Sidebar />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import add from "../assets/add.png";
 import arrow from "../assets/arrow.png";
@@ -50,7 +50,8 @@ const Icon = styled.img`
   height: 20px;
 `;
 
-const Category = () => {
+const Category = ({ changePage }) => {
+  const [isMainPage, setIsMainPage] = useState(true);
   return (
     <div style={{ width: "250px", paddingTop: "10px", marginRight: "15px" }}>
       <Button>
@@ -61,11 +62,30 @@ const Category = () => {
         ></img>
         새로 만들기
       </Button>
-      <List style={{ backgroundColor: "#E8F0FE" }}>
-        <Icon src={arrow} alt="->"></Icon>
-        <Icon src={drive} alt="drive"></Icon>
-        <p style={{ marginLeft: "10px" }}>내 드라이브</p>
-      </List>
+      {isMainPage ? (
+        <List
+          style={{ backgroundColor: "#E8F0FE" }}
+          onClick={() => {
+            changePage(true);
+            setIsMainPage(true);
+          }}
+        >
+          <Icon src={arrow} alt="->"></Icon>
+          <Icon src={drive} alt="drive"></Icon>
+          <p style={{ marginLeft: "10px" }}>내 드라이브</p>
+        </List>
+      ) : (
+        <List
+          onClick={() => {
+            changePage(true);
+            setIsMainPage(true);
+          }}
+        >
+          <Icon src={arrow} alt="->"></Icon>
+          <Icon src={drive} alt="drive"></Icon>
+          <p style={{ marginLeft: "10px" }}>내 드라이브</p>
+        </List>
+      )}
       <List>
         <Icon src={arrow} alt="->"></Icon>
         <Icon src={computer} alt="computer"></Icon>
@@ -86,11 +106,30 @@ const Category = () => {
         <Icon src={star} alt="star"></Icon>
         <p style={{ marginLeft: "10px" }}>중요 문서함</p>
       </List>
-      <List>
-        <Icon style={{ visibility: "hidden" }}></Icon>
-        <Icon src={trash} alt="trash"></Icon>
-        <p style={{ marginLeft: "10px" }}>휴지통</p>
-      </List>
+      {isMainPage ? (
+        <List
+          onClick={() => {
+            changePage(false);
+            setIsMainPage(false);
+          }}
+        >
+          <Icon style={{ visibility: "hidden" }}></Icon>
+          <Icon src={trash} alt="trash"></Icon>
+          <p style={{ marginLeft: "10px" }}>휴지통</p>
+        </List>
+      ) : (
+        <List
+          style={{ backgroundColor: "#E8F0FE" }}
+          onClick={() => {
+            changePage(false);
+            setIsMainPage(false);
+          }}
+        >
+          <Icon style={{ visibility: "hidden" }}></Icon>
+          <Icon src={trash} alt="trash"></Icon>
+          <p style={{ marginLeft: "10px" }}>휴지통</p>
+        </List>
+      )}
       <div
         style={{
           borderBottom: "0.1px solid #DADCE0",
