@@ -90,7 +90,7 @@ function App() {
           <Category isMainpage={mainpage} changePage={changePage} />
           <div style={{ width: "150%" }}>
             <div stlye={{ position: "absolute" }}>
-              <p style={{ fontSize: "18px", lineHeight: "2vh" }}>내 드라이브</p>
+              {mainpage ? <p style={{ fontSize: "18px", lineHeight: "2vh" }}>내 드라이브</p> : <p style={{ fontSize: "18px", lineHeight: "2vh" }}>내 드라이브 휴지통</p>}
               <div
                 style={{
                   borderBottom: "0.1px solid #DADCE0",
