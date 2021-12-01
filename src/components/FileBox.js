@@ -24,6 +24,8 @@ const Image = styled.div`
   background-color: white;
   border-bottom: none;
   border-radius: 5px 5px 0 0;
+  background-image: url(${(props) => props.url});
+  background-size: 100%;
 `;
 
 const Title = styled.div`
@@ -34,6 +36,16 @@ const Title = styled.div`
   border-bottom: none;
   border-radius: 0 0 5px 5px;
   padding: 10px;
+  display: flex;
+  flex-direction: row;
+`;
+
+const Icon = styled.div`
+  background-image: url(${(props) => props.url});
+  width: 19px;
+  height: 19px;
+  margin-right: 10px;
+  margin-top: 2px;
 `;
 
 const FileBox = ({ onRightFileClick }) => {
@@ -68,8 +80,11 @@ const FileBox = ({ onRightFileClick }) => {
               onDragStart={handleDrag}
               onDrop={(e) => switchFile(dispatch, dragId, e.currentTarget.id)}
             >
-              <Image>dd</Image>
-              <Title>{fileBox.content}</Title>
+              <Image url={fileBox.thumbnail} />
+              <Title>
+                <Icon url={fileBox.icon} />
+                {fileBox.content}
+              </Title>
             </Box>
           </div>
         ))}

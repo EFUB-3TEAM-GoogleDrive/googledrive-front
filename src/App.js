@@ -16,7 +16,7 @@ const Content = styled.div`
 `;
 
 const FileWrapper = styled.div`
-  max-height: 81vh;
+  height: 81vh;
   overflow-y: scroll;
   z-index: 0;
   &::-webkit-scrollbar {
@@ -90,7 +90,15 @@ function App() {
           <Category isMainpage={mainpage} changePage={changePage} />
           <div style={{ width: "150%" }}>
             <div stlye={{ position: "absolute" }}>
-              {mainpage ? <p style={{ fontSize: "18px", lineHeight: "2vh" }}>내 드라이브</p> : <p style={{ fontSize: "18px", lineHeight: "2vh" }}>내 드라이브 휴지통</p>}
+              {mainpage ? (
+                <p style={{ fontSize: "18px", lineHeight: "2vh" }}>
+                  내 드라이브
+                </p>
+              ) : (
+                <p style={{ fontSize: "18px", lineHeight: "2vh" }}>
+                  내 드라이브 휴지통
+                </p>
+              )}
               <div
                 style={{
                   borderBottom: "0.1px solid #DADCE0",
@@ -99,41 +107,45 @@ function App() {
                 }}
               ></div>
             </div>
-            {mainpage ? (
-              <div>
-                <FileWrapper
-                  onContextMenu={onRightBlankClick}
-                  onMouseDown={onClick}
-                >
-                  <Title>추천</Title>
-                  <RecommendBox onRightFileClick={onRightFileClick} />
-                  <br />
-                  <Title>폴더</Title>
-                  <FolderBox onRightFileClick={onRightFileClick} />
-                  <br />
-                  <Title> 파일</Title>
-                  <FileBox onRightFileClick={onRightFileClick} />
+            <div>
+              {mainpage ? (
+                <div>
+                  <FileWrapper
+                    onContextMenu={onRightBlankClick}
+                    onMouseDown={onClick}
+                  >
+                    <Title>추천</Title>
+                    <RecommendBox onRightFileClick={onRightFileClick} />
+                    <br />
+                    <Title>폴더</Title>
+                    <FolderBox onRightFileClick={onRightFileClick} />
+                    <br />
+                    <Title> 파일</Title>
+                    <FileBox onRightFileClick={onRightFileClick} />
+                  </FileWrapper>
+                </div>
+              ) : (
+                <FileWrapper onMouseDown={onClick}>
+                  <TrashCan onRightFileClick={onRightFileClick} />
                 </FileWrapper>
-                {blankMenu.current ? (
-                  <BlankRightClick x={x.current} y={y.current} />
-                ) : (
-                  <></>
-                )}
-                {fileMenu.current ? (
-                  <FileRightClick
-                    x={x.current}
-                    y={y.current}
-                    selectedType={selectedType.current}
-                    selectedId={selectedId.current}
-                    close={onClick}
-                  />
-                ) : (
-                  <></>
-                )}
-              </div>
-            ) : (
-              <TrashCan />
-            )}
+              )}
+              {blankMenu.current ? (
+                <BlankRightClick x={x.current} y={y.current} />
+              ) : (
+                <></>
+              )}
+              {fileMenu.current ? (
+                <FileRightClick
+                  x={x.current}
+                  y={y.current}
+                  selectedType={selectedType.current}
+                  selectedId={selectedId.current}
+                  close={onClick}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
           <Sidebar />
         </Content>
